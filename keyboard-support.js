@@ -1,6 +1,8 @@
 let holdShift = false;
+let lastChangedIndex = 0;
+const inputs = document.querySelectorAll("input");
 
-/* set holdShift to true/false on "keydown" & "keyup" respectively */
+// set holdShift to true/false on "keydown" & "keyup" respectively
 document.addEventListener("keydown", e => {
 	holdShift = e.shiftKey && true;
 })
@@ -8,18 +10,13 @@ document.addEventListener("keyup", () => {
 	holdShift = false;
 })
 
-const inputs = document.querySelectorAll("input")
 
 inputs.forEach((elem, index) => 
 	elem.addEventListener("change",  e => handleChange(e, index))
 );
 
-
-let lastChangedIndex = 0;
-
 function handleChange(e, index) {
-
-	/* do nothing if shift key not holded */
+	// do nothing if shift key not holded
 	if(!holdShift) {
 		lastChangedIndex = index;
 		return;
@@ -27,7 +24,7 @@ function handleChange(e, index) {
 
 	const isAscendingOrder = lastChangedIndex < index;
 
-	/* get selectionRange to be used for slicing inputs array. */
+	// get selectionRange to be used for slicing inputs array.
 	const selectionRange = isAscendingOrder 
 		? [lastChangedIndex, index] 
 		: [index,	lastChangedIndex + 1]; // add 1 because slice(x, y) means 'y' is exclusive
