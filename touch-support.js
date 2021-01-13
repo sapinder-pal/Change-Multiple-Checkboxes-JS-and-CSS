@@ -9,12 +9,23 @@ const isGestureDownward = yOrdinate => {
 	return isDownward;
 };
 
+// recognize when the finger moves in the range of any item's area
+const isGestureInRange = (item, finger) => {
+	const confirmVerticalRange = item.offsetTop <= finger.pageY && 
+		(item.offsetTop + item.offsetHeight) >= finger.pageY;
+	
+	const confirmHorizontalRange = item.offsetLeft <= finger.pageX &&
+		(item.offsetLeft + item.offsetWidth) >= finger.pageX;
+	
+	return confirmVerticalRange && confirmHorizontalRange;
+}
+	
 // attach and remove event listeners to items
 items.forEach(item => {
 
-	item.addEventListener("touchstart", () => {
+	item.addEventListener("touchstart", e => {
 		// wait for 200ms before recognizing gesture
-		setTimeout(() => {		
+		setTimeout(() => {
 			itemsWrapper.addEventListener("touchmove", handleTouchMove)
 		}, 200);
 	});
@@ -28,18 +39,8 @@ items.forEach(item => {
 
 
 function handleTouchMove({changedTouches}) {
-	// recognize when the touch moves in the range of any item's area
-	const isGestureInRange = item => {
-		const confirmVerticalRange = item.offsetTop <= changedTouches[0].pageY && 
-			(item.offsetTop + item.offsetHeight) >= changedTouches[0].pageY;
-		
-		const confirmHorizontalRange = item.offsetLeft <= changedTouches[0].pageX &&
-			(item.offsetLeft + item.offsetWidth) >= changedTouches[0].pageX;
-
-		return confirmVerticalRange && confirmHorizontalRange;
-	}
 	
-	const itemToChange = items.find(isGestureInRange);
+	const itemToChange = items.find(item => isGestureInRange(item, changedTouches[0]));
 
 	itemToChange.children[0].checked = isGestureDownward(changedTouches[0].pageY);
 }

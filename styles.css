@@ -1,10 +1,12 @@
 body {
   font-family: sans-serif;
-  background: #ffc600;
+	background: #ffc600;
+	overscroll-behavior: none;
 }
 
 .items-wrapper {
 	width: 400px;
+	max-width: 80vw;
   margin: 5vh auto;
   background: white;
   border-radius: 5px;
@@ -31,11 +33,11 @@ input[type="checkbox"] {
 
 label {
   margin: 0;
-  padding: 20px;
+  padding: 1em;
   transition: background 0.2s;
   flex: 1;
   font-family: 'helvetica neue';
-  font-size: 20px;
+  font-size: 1em;
   font-weight: 200;
 	border-left: 1px solid #D1E2FF;
 	user-select: none;
